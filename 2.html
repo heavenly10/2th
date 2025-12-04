@@ -142,33 +142,33 @@ document.querySelectorAll(".card").forEach(card => {
 const music = document.getElementById("bg-music");
 const btn = document.getElementById("music-btn");
 
-// mulai dari detik tertentu (misal 1:30)
-music.currentTime = 104; 
-music.volume = 0; // mulai dari volume 0
-music.play();
+// mulai muted
+music.volume = 0;
+music.muted = true;
 
-// fade-in 5 detik
-let vol = 0;
-const fadeInInterval = setInterval(() => {
-  if (vol < 1) {
-    vol += 0.01; // naikkan 1% per interval
-    music.volume = vol;
-  } else {
-    clearInterval(fadeInInterval);
-  }
-}, 60); // 50ms per step → total sekitar 5 detik
-
-// tombol mute/unmute
 btn.addEventListener("click", () => {
-  if (music.muted) {
-    music.muted = false;
+  if (music.paused) {
+    music.muted = false;       // buka mute
+    music.play();               // play saat user klik → browser oke
     btn.textContent = "🔊";
+
+    // fade-in 5 detik
+    let vol = 0;
+    const fadeInInterval = setInterval(() => {
+      if (vol < 1) {
+        vol += 0.01;
+        music.volume = vol;
+      } else {
+        clearInterval(fadeInInterval);
+      }
+    }, 50);
   } else {
-    music.muted = true;
-    btn.textContent = "🔇";
+    music.muted = !music.muted;
+    btn.textContent = music.muted ? "🔇" : "🔊";
   }
 });
 </script>
 
 </body>
+
 </html>
